@@ -11,6 +11,7 @@ from utils.apiexceptions import InvalidRequestStructureError
 
 DEFAULT_LOGGER = logging.getLogger('api_logger')
 
+
 def fail_gracefully(func):
     """ Wrapper method to put a try/except block around the function passed by user which returns an HTTP 500 Internal Server Error
         response to the client when unhandled exceptions occur.  Should only be used in cases where a Response object is
@@ -29,6 +30,7 @@ def fail_gracefully(func):
             return make_response(jsonify(message='Internal server error due to unhandled exception', error=str(exc), code=500,
                                   status='failure'), 500)
     return wrapper
+
 
 def parse_request(schema_type:type(Schema), request:Union[LocalProxy, dict]) -> Tuple[dict, dict]:
     """ Use a marshmallow schema to parse JSON from a request or dict.  Will raise a InvalidRequestStructureError if any
@@ -50,11 +52,14 @@ def parse_request(schema_type:type(Schema), request:Union[LocalProxy, dict]) -> 
 
     return parsed_request.data
 
+
 def log_request(logger:Logger, raw_request:LocalProxy):
     logger.info(f'Received request {raw_request}')
     logger.info(f'Request data: {raw_request.get_json(force=True)}')
 
+
 def create_response(code: int, message: str, body: dict) -> Response:
+    """ Create a basic HTTP response with 'Content-Type:application/json' and 'Access-Control-Allow-Origin:*' headers."""
     response_dict = {'code': code,
                      'message': message,
                      'body': body
