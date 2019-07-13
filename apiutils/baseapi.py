@@ -4,7 +4,7 @@ import logging
 from flask_restful import Resource, request
 from flask import Response
 
-from utils.api_utils import fail_gracefully, parse_request, log_request, create_response
+from apiutils.api_utils import fail_gracefully, parse_request, log_request, create_response
 
 
 class BaseApi(Resource):

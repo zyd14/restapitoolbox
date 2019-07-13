@@ -7,7 +7,7 @@ from typing import Union, Tuple
 from flask import make_response, jsonify, Response
 from werkzeug.local import LocalProxy
 
-from utils.apiexceptions import InvalidRequestStructureError
+from apiutils.apiexceptions import InvalidRequestStructureError
 
 DEFAULT_LOGGER = logging.getLogger('api_logger')
 
