@@ -6,6 +6,7 @@ from flask import Response
 
 from utils.api_utils import fail_gracefully, parse_request, log_request, create_response
 
+
 class BaseApi(Resource):
 
     logger = logging.getLogger('api_logger')
