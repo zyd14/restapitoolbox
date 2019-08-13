@@ -17,16 +17,12 @@ Special Notes:
 """
 
 import attr
-import datetime
-import json
-import os
+import logging
 from typing import List, Union
 
 import psycopg2
 import psycopg2.extras
 
-
-DB_LOGGER = LOGGER.getChild('db_logger')
 
 @attr.s(slots=True, frozen=True)
 class BaseDBConnect:
@@ -48,14 +44,14 @@ class BaseDBConnect:
         connection: a psycopg2 connection to the user-provided database
 
     """
-    logger = attr.ib(default=DB_LOGGER)
+    logger = attr.ib(default=logging.getLogger('db_logger'))  # type: logging.Logger
     user = attr.ib(default=None)  # type: str
     password = attr.ib(default=None)  # type: str
     host = attr.ib(default=None)  # type: str
     database = attr.ib(default=None)  # type: str
     autocommit = attr.ib(default=False)  # type: bool
     timeout = attr.ib(default=60) # type: int
-    connection = attr.ib(init=False)
+    connection = attr.ib(init=False)  # type: psycopg2
 
     def _attrs_post_init__(self):
         object.__setattr__(self, 'connection', self._get_connection())
