@@ -2,6 +2,7 @@ from functools import wraps
 import logging
 from logging import Logger
 from marshmallow import Schema
+import os
 from typing import Union, Tuple
 
 from flask import make_response, jsonify, Response
@@ -31,8 +32,14 @@ def fail_gracefully(func):
                                   status='failure'), 500)
     return wrapper
 
+def parse_authorization_details(auth_header_data):
+    pg_host = os.getenv('PG_HOST', '127.0.0.1')
+    pg_database = os.getenv('PG_DATABASE', 'test_database')
 
-def parse_request(schema_type:type(Schema), request:Union[LocalProxy, dict]) -> Tuple[dict, dict]:
+    return {'user_role': auth_header_data.username, 'password': auth_header_data.password,
+            'host': pg_host, 'database': pg_database}
+
+def parse_post_data(schema_type:type(Schema), request:Union[LocalProxy, dict]) -> Tuple[dict, dict]:
     """ Use a marshmallow schema to parse JSON from a request or dict.  Will raise a InvalidRequestStructureError if any
         errors occur during parsing (such as missing or unexpected fields, wrong types).
     """
