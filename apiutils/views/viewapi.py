@@ -72,7 +72,6 @@ class BaseViewApi(Resource):
         return make_response(json.dumps({"message": "POST requests have not been implemented at this endpoint"}), 400)
 
     @classmethod
-    @api_utils.fail_gracefully
     def create_response(cls, code=200, message='Success', body=None) -> ResponseBase:
         """ Defers response creation to api_utils method, but allows for subclasses to override with custom behavior
             if required.
@@ -83,7 +82,6 @@ class BaseViewApi(Resource):
         return api_utils.create_response(code=code, message=message, body=body)
 
     @classmethod
-    @api_utils.fail_gracefully
     def handle_view_exceptions(cls, exc: BaseException):
         """ Handles various errors and exceptional states and attempts to present informative responses to
             the user about them.

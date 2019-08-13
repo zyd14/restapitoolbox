@@ -1,6 +1,5 @@
 from functools import wraps
 import logging
-from logging import Logger
 from marshmallow import Schema
 import os
 from typing import Union, Tuple
@@ -24,13 +23,18 @@ def fail_gracefully(func):
             logger = DEFAULT_LOGGER
         else:
             logger = kwargs['logger']
+
         try:
             return func(*args, **kwargs)
         except BaseException as exc:
             logger.exception(exc)
-            return make_response(jsonify(message='Internal server error due to unhandled exception', error=str(exc), code=500,
-                                  status='failure'), 500)
+            return make_response(jsonify(message='Internal server error due to unhandled exception',
+                                         error=str(exc),
+                                         code=500,
+                                         status='failure'),
+                                         500)
     return wrapper
+
 
 def parse_authorization_details(auth_header_data):
     pg_host = os.getenv('PG_HOST', '127.0.0.1')
@@ -38,6 +42,7 @@ def parse_authorization_details(auth_header_data):
 
     return {'user_role': auth_header_data.username, 'password': auth_header_data.password,
             'host': pg_host, 'database': pg_database}
+
 
 def parse_post_data(schema_type:type(Schema), request:Union[LocalProxy, dict]) -> Tuple[dict, dict]:
     """ Use a marshmallow schema to parse JSON from a request or dict.  Will raise a InvalidRequestStructureError if any
@@ -60,11 +65,6 @@ def parse_post_data(schema_type:type(Schema), request:Union[LocalProxy, dict]) -
     return parsed_request.data
 
 
-def log_request(logger:Logger, raw_request:LocalProxy):
-    logger.info(f'Received request {raw_request}')
-    logger.info(f'Request data: {raw_request.get_json(force=True)}')
-
-
 def create_response(code: int, message: str, body: dict) -> Response:
     """ Create a basic HTTP response with 'Content-Type:application/json' and 'Access-Control-Allow-Origin:*' headers."""
     response_dict = {'code': code,
@@ -74,5 +74,4 @@ def create_response(code: int, message: str, body: dict) -> Response:
 
     response = make_response(jsonify(**response_dict), code)
     response.headers['Content-Type'] = 'application/json'
-    response.headers['Access-Control-Allow-Origin'] = '*'
     return response

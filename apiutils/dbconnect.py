@@ -50,7 +50,7 @@ class BaseDBConnect:
     host = attr.ib(default=None)  # type: str
     database = attr.ib(default=None)  # type: str
     autocommit = attr.ib(default=False)  # type: bool
-    timeout = attr.ib(default=60) # type: int
+    timeout = attr.ib(default=60)  # type: int
     connection = attr.ib(init=False)  # type: psycopg2
 
     def _attrs_post_init__(self):
