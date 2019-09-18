@@ -24,7 +24,7 @@ def fail_gracefully(func):
             logger = kwargs['logger']
         try:
             return func(*args, **kwargs)
-        except BaseException as exc:
+        except Exception as exc:
             logger.exception(exc)
             return make_response(jsonify(message='Internal server error due to unhandled exception', error=str(exc), code=500,
                                   status='failure'), 500)
