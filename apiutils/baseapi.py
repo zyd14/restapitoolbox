@@ -3,8 +3,7 @@ import logging
 from flask_restful import Resource, request
 from flask import Response
 
-from apiutils.api_utils import fail_gracefully, parse_post_data, log_request, create_response
-
+from apiutils.api_utils import fail_gracefully, parse_post_data, create_response
 
 class BaseApi(Resource):
 
@@ -28,7 +27,6 @@ class BaseApi(Resource):
     # Assign default functions from api_utils
     # All these can be overridden when BaseApi is subclassed to provide custom functionality
     parse_request = parse_post_data
-    log_request = log_request
     create_response = create_response
 
     @fail_gracefully
