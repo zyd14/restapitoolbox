@@ -1,0 +1,13 @@
+{
+  "endpoint": {
+    "url": "/users/view",
+    "matching_args": [
+      "user_id",
+      "user_name",
+      "registration_status",
+      "access_level",
+      "access_id"
+    ],
+    "view": "v_group_users"
+  }
+}
