@@ -29,7 +29,7 @@ class WatchTowerWrapper:
         logger.propagate = False
 
         if not log_group:
-            log_group = os.getenv('AWS_LOG_GROUP_NAME', f'/aws/lambda/fastq-registrar-{STAGE}')
+            log_group = os.getenv('AWS_LOG_GROUP_NAME', f'/testing')
 
         if not log_stream:
             log_stream = datetime.datetime.now().isoformat()[:10]
@@ -127,6 +127,3 @@ class WatchTowerWrapper:
         handler.setLevel(log_level)
         logger.addHandler(handler)
         return logger
-
-
-BASE_CW_LOGGER = WatchTowerWrapper.create_cloudwatch_logger('RegistrarLoggerCW', log_group=F'/aws/lambda/fastq-registrar-{STAGE}')
