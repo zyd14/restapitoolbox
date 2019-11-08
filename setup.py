@@ -27,7 +27,7 @@ setuptools.setup(
     description='Provides basic tools for quickly implementing RESTful APIs in Flask',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/sciscogenetics/ApiToolbox',
+    url='https://github.com/zyd14/restapitoolbox',
     packages=setuptools.find_packages(),
     install_requires=["aws_xray_sdk==2.4.0",
                         "boto3==1.9.93",
