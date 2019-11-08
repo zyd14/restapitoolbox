@@ -36,7 +36,8 @@ setuptools.setup(
                         "marshmallow==2.19.2",
                         "moto==1.3.7",
                         "pytest>=3.8.0",
-                        "pytest-cov>=2.7.0"],
+                        "pytest-cov>=2.7.0",
+                        "watchtower==0.7.3"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
