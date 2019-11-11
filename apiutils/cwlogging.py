@@ -6,7 +6,7 @@ import boto3
 import watchtower
 from botocore.client import BaseClient
 
-STAGE = os.getenv('REGISTRAR_STAGE')
+STAGE = os.getenv('REGISTRAR_STAGE', 'testing')
 
 class WatchTowerWrapper:
 
@@ -34,7 +34,6 @@ class WatchTowerWrapper:
         if not log_stream:
             log_stream = datetime.datetime.now().isoformat()[:10]
 
-        os.environ.update(AWS_EXECUTION_ENV='uest')
         if os.getenv('AWS_EXECUTION_ENV'):
             cls.create_cw_resources(log_group, log_stream)
             logger = cls.add_cw_handler(logger, log_level=log_level, log_group=log_group, log_stream=log_stream)
@@ -51,7 +50,6 @@ class WatchTowerWrapper:
 
         if not log_stream:
             log_stream = datetime.datetime.now().isoformat()[:10]
-        os.environ.update(AWS_EXECUTION_ENV='uest')
         if os.getenv('AWS_EXECUTION_ENV'):
             logger = cls.handle_cw_creation(logger, log_group, log_stream, log_level)
 
@@ -63,7 +61,7 @@ class WatchTowerWrapper:
             cls.create_cw_resources(log_group, log_stream)
             logger = cls.add_cw_handler(logger, log_level=log_level, log_group=log_group, log_stream=log_stream)
         else:
-            logger.info('No CloudWatch handler was added as this execution is not occurring within AWS.')
+            logger.info('No CloudWatch handler was added as it already exists within the logger.')
         return logger
 
     @staticmethod
